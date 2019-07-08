@@ -375,9 +375,10 @@ If you wanted to compute the $p$-values by hand, you could:
 ```{r pvalues}
 ## here we use lme4:::anova.merMod to force R to use the anova
 ## method from lme4 rather than the one from lmerTest
+## n.b. need devel version of lme4
 a2 <- lme4:::anova.merMod(lmer2B)
 fvals <- a2[,"F value"]
-numdf <- a2[,"Df"]
+numdf <- a2[,"npar"]
 dendf <- 36
 pf(fvals,numdf,dendf,lower.tail=FALSE)
 ```
