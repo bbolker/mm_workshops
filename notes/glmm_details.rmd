@@ -102,7 +102,7 @@ aods3::gof(g1)
 (negative binomial, beta-binomial, etc.)  
 `glmmTMB`/`brms` [@brooks_modeling_2017]
 
-```{r}
+```{r glmmTMB1}
 library(glmmTMB)
 g5 <- glmmTMB(incidence/size ~ period + (1|herd),
               family=binomial,
@@ -111,7 +111,7 @@ g5 <- glmmTMB(incidence/size ~ period + (1|herd),
 g6 <- update(g5, family=betabinomial)
 ```
 
-```{r}
+```{r dotwhisker1}
 dotwhisker::dwplot(list(lme4=g1,glmmTMB=g5,glmmTMB_BB=g6),
                    effects="fixed")+
     geom_vline(xintercept=0,linetype=2)
@@ -122,7 +122,7 @@ dotwhisker::dwplot(list(lme4=g1,glmmTMB=g5,glmmTMB_BB=g6),
 - assumption of Normal residuals may not be very good
 - simulated residuals (`DHARMa`)
 
-```{r message=FALSE,results="hide"}
+```{r dharma1,message=FALSE,results="hide"}
 DHARMa::simulateResiduals(g1,plot=TRUE)
 ```
 
@@ -131,7 +131,7 @@ DHARMa::simulateResiduals(g1,plot=TRUE)
 - `glmmTMB` etc.
 - Owls example
 
-```{r zi}
+```{r zi_ex1,cache=TRUE}
 zipm3 <- glmmTMB(count~spp * mined + (1|site),
                 ziformula=~spp * mined,
                 Salamanders, family="poisson")

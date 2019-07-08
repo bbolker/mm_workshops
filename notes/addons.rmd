@@ -71,9 +71,11 @@ plot_grid(tfun("unstandardized\ndwplot(...,by_2sd=FALSE)",FALSE),
 - `sjPlot`
 
 ```{r owls_fit,cache=TRUE}
-Owls <- transform(Owls, Nest=reorder(Nest,SiblingNegotiation))
+Owls <- transform(Owls, Nest=reorder(Nest,SiblingNegotiation),
+                  log_BS=log(BroodSize))
 owls_nb1 <- glmmTMB(SiblingNegotiation ~ FoodTreatment*SexParent*ArrivalTime+
-                        (1|Nest)+offset(log(BroodSize)),
+                      offset(log_BS)+
+                      (1|Nest),
                     family = nbinom1, zi = ~1, data=Owls)
 ```
 
@@ -111,7 +113,7 @@ newdat <- with(Owls,
                            FoodTreatment=levels(FoodTreatment),
                            ArrivalTime=seq(min(ArrivalTime),
                                            max(ArrivalTime),length=31),
-                           BroodSize=mean(BroodSize)))
+                           log_BS=mean(log_BS)))
                            
 ## design matrix (fixed effects)
 mm <- model.matrix(delete.response(terms(owls_nb1)),newdat)
