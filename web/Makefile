@@ -1,4 +1,5 @@
 SRCDIR=..
+thisdir=web
 
 notes += modeling_inference glm_basic glm_intermediate glmm datavis bayes bayes_lab mixed_details mixed_lab glmm_details glmm_lab addons intro
 
@@ -16,6 +17,7 @@ rr := $(Rfiles:%=R/%)
 
 ## syllabus.html 
 all: glmm_data.zip setup.html schedule.html datasets.html ${nnhtml} ${nnrmd} ${nnslides} ${rr}
+	rsync  -auvx . ms.mcmaster.ca:~/public_html/mm/brisbane
 
 notes/%.rmd:  ${SRCDIR}/notes/%.[Rr]md
 	cp $< $@
@@ -39,6 +41,6 @@ notes/%.pdf: ${SRCDIR}/notes/%.rmd
 	echo "rmarkdown::render(\"$<\",output_format='tufte_handout',output_dir='notes')" | R --slave
 
 glmm_data.zip: 
-	cd ..; zip gh-pages/glmm_data.zip ${dd}
+	cd ..; zip $(thisdir)/glmm_data.zip ${dd}
 
 datasets.html: ../datasets.csv ../datasets.rmd
