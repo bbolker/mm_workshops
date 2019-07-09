@@ -1,5 +1,5 @@
 ---
-title: "Göttingen GLMM workshop schedule"
+title: "Brisbane workshop schedule"
 date: "`r format(Sys.time(),'%d %b %Y')`"
 ---
 
