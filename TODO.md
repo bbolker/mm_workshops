@@ -1,3 +1,12 @@
+* GLMM intro: 
+   * give example of X, Z for simple model (transition to 'general' model)
+   * Culcita plot via broom.mixed?
+* workflow/packages?
+* updated fitting/inference flowchart from Bolker 2008?
+
+---
+
+## old
 
 - deal with singular fit warnings in boot/augment/influence
 - temp repo for extras?

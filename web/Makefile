@@ -1,5 +1,6 @@
 SRCDIR=..
 thisdir=web
+WEBURL=ms.mcmaster.ca:~/public_html/mm/brisbane
 
 notes += modeling_inference glm_basic glm_intermediate glmm datavis bayes bayes_lab mixed_details mixed_lab glmm_details glmm_lab addons intro
 
@@ -17,7 +18,7 @@ rr := $(Rfiles:%=R/%)
 
 ## syllabus.html 
 all: glmm_data.zip setup.html schedule.html datasets.html ${nnhtml} ${nnrmd} ${nnslides} ${rr}
-	rsync  -auvx . ms.mcmaster.ca:~/public_html/mm/brisbane
+	rsync  -auvx . $(WEBURL)
 
 notes/%.rmd:  ${SRCDIR}/notes/%.[Rr]md
 	cp $< $@

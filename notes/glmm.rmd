@@ -373,7 +373,7 @@ the grouping variable;
 - have a categorical predictor that is a nuisance variable (i.e., it is not of direct interest, but should be controlled for).
 - have more than 5-6 groups, or regularizing/using priors (otherwise, use fixed)
 
-See also @Crawley2002; @gelman_analysis_2005
+See also @Crawley2002; @gelman_analysis_2005; @hodges_richly_2016 ("old" vs "new" REs)
 
 ## Avoiding MM
 
@@ -395,7 +395,7 @@ Overview
     consistency of random effect with RE distribution)
 	-   Goodness-of-fit *integrates* over conditional modes
 
-## ...
+## example
 
 ```{r plotex,message=FALSE}
 set.seed(101)

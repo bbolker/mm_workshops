@@ -234,3 +234,5 @@ e.g.
 
 - e.g. CIs on predictions
 - easy! compute whatever function you want 
+
+## References
