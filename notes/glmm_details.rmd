@@ -138,7 +138,9 @@ zipm3 <- glmmTMB(count~spp * mined + (1|site),
 ## can even include random effects in zero-inflation model!
 zipm4 <- update(zipm3, ziformula = ~spp*mined+(1|site))
 zipm5 <- update(zipm3, ziformula = ~(1|site))
+```
 
+```{r zi_aic,message=FALSE}
 library(bbmle)
 AICtab(zipm3,zipm4,zipm5)
 ```

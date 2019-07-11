@@ -4,7 +4,7 @@ date: "`r format(Sys.time(), '%H:%M %d %B %Y ')`"
 bibliography: glmm.bib
 ---
 
-Data sets can be found [here](https://github.com/bbolker/goettingen_2019/tree/master/data)
+Data sets can be found [on Github](https://github.com/bbolker/mm_workshops/tree/brisbane_2019), or in this [zip file](glmm_data.zip).
 
 ```{r tab,echo=FALSE}
 library(pander)

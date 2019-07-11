@@ -1,7 +1,7 @@
 ---
 title: "Mixed model lab #1"
 author: Ben Bolker
-date: "`r format(Sys.time(), '%H:%M %d %B %Y ')`"
+date: "`r format(Sys.time(), '%d %B %Y ')`"
 ---
 
 ![cc](pix/cc-attrib-nc.png)
@@ -391,9 +391,11 @@ lmer4 <- lmer(stmass~mnth+roostsitu+(1|subject),data=dataf)
 
 pboot <- function(m0,m1) {
   s <- simulate(m0)
-  L1 <- logLik(refit(m1,s[[1]]))
-  L0 <- logLik(refit(m0,s[[1]]))
-  2*(L1-L0)
+  suppressMessages({
+    L1 <- logLik(refit(m1,s[[1]]))
+    L0 <- logLik(refit(m0,s[[1]]))
+    2*(L1-L0)
+  })
 }
 pboot(lmer4,lmer3)
 boothist <- replicate(1000,pboot(lmer4,lmer3))
@@ -408,9 +410,11 @@ abline(v=obsval,col=2,lwd=2)
 mean(boothist>obsval)
 ```
 
-```{r pbkrtest,warning=FALSE}
+```{r pbkrtest,warning=FALSE,message=FALSE}
 library(pbkrtest)
-t1 <- system.time(PBmodcomp(lmer3,lmer4,nsim=500))
+t1 <- system.time(suppressMessages(
+  PBmodcomp(lmer3,lmer4,nsim=500)
+  ))
 ```
 
 (takes `r round(t1["elapsed"])` seconds)
@@ -421,7 +425,7 @@ In this case, the Kenward-Roger correction appropriately does nothing different 
 
 ## Predictions and plotting
 
-In `lmer`, `predict` has a `re.form` argument that specifies which random effects should be included (`NA` or `~0`=none, population level; `NULL` (=all) or `~subject`=prediction at the subject level; more complex models, might have additional nested levels).
+In `lmer`, `predict` has a `re.form` argument that specifies which random effects should be included (`NA` or `~0`=none, population level; `NULL` (=all) or `~subject`=prediction at the subject level; more complex models might have additional nested levels).
 
 ```{r predictplot}
 dataf$pred <- predict(lmer2,re.form=NA)  ## population level
@@ -441,16 +445,20 @@ There is so much shrinkage (the among-individual variance is very small) that we
 VarCorr(lmer2)
 ```
 
-Unfortunately computing confidence intervals for the predictions is a little tricky: again, there is some code on the [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html) for this.
+In many cases you will want to set up a new data frame to do prediction rather than just using the covariates from the original data (e.g. if the data are sampled irregularly, or sparsely), and use the `newdata` argument of `predict`.  The `expand.grid` function is handy in this context too.
 
-```{r predplot2}
-ggplot(dataf,aes(mnth,pred1))+
-    geom_line(aes(group=subject,x=as.numeric(mnth)),colour="gray")+
-    facet_wrap(~roostsitu,scale="free_y",nrow=1)+
-    geom_line(aes(y=pred,x=as.numeric(mnth)),colour="red")
+Unfortunately computing confidence intervals for the predictions is a little tricky: there is some code in the [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html) for this, but it may be easier to use the `effects`, `emmeans`, or `sjPlot` packages.
+
+```{r emplot}
+emdata <- as.data.frame(emmeans(lmer2,~mnth+roostsitu))
+(g0
+  + geom_line(data=emdata,aes(y=emmean,group=1),colour="red",size=2)
+  + geom_ribbon(data=emdata,aes(y=emmean,
+                                group=1,
+                                ymin=lower.CL, ymax=upper.CL),
+                fill="black", colour=NA, alpha=0.4)
+)
 ```
-
-For most cases you will want to set up a new data frame to do prediction rather than just using the covariates from the original data (e.g. if the data are sampled irregularly, or sparsely), and use the `newdata` argument of `predict`.  The `expand.grid` function is handy in this context too.
 
 ### History
 

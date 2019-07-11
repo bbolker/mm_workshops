@@ -3,6 +3,8 @@ title: "Brisbane workshop schedule"
 date: "`r format(Sys.time(),'%d %b %Y')`"
 ---
 
+http://www.math.mcmaster.ca/bolker/mm/brisbane
+
 **location** N54_2.02
 
 

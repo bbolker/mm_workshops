@@ -214,7 +214,7 @@ VarCorr(mp1X2)
 ```
 
 Use `lmer_alt` to split factor variable into separate terms ...
-```{r X3,cache=TRUE}
+```{r X3,cache=TRUE, message=FALSE}
 mp1X3 <- afex::lmer_alt(total.fruits ~ nutrient*amd +
                             reg + rack + status +
                             (amd*nutrient||popu)+

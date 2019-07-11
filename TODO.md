@@ -3,6 +3,7 @@
    * Culcita plot via broom.mixed?
 * workflow/packages?
 * updated fitting/inference flowchart from Bolker 2008?
+* copy data sets to web/direct links to individual data sets?
 
 ---
 
